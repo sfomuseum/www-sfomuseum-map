@@ -240,22 +240,9 @@ sfomuseum.maps.campus = (function(){
 	    }
 
 	    var on_change = function(){
-
 		var current_focus = sfomuseum.maps.aerial.getCurrentFocus(map);
-		var new_focus = (current_focus == "fg") ? "bg": "fg";
-
-		if (new_focus == "fg"){
-		    aerial_panes[map_id].style.zIndex = 2000;
-		    self.fadeCampusAndComplex(map);
-		} else {
-		    aerial_panes[map_id].style.zIndex = 5000;
-		    self.fillCampusAndComplex(map);
-		}
-
-		sfomuseum.maps.aerial.setCurrentFocus(map, new_focus);
-		aerial_layers_controls[map_id].updateHash(map);
-
-		return;
+		var new_focus = (current_focus == "fg") ? "bg": "fg";		
+		self.setAerialLayerFocus(map, new_focus);
 	    };
 
 	    aerial_toggle_controls[map_id] = new L.Control.Toggle({
@@ -266,6 +253,22 @@ sfomuseum.maps.campus = (function(){
 	    map.addControl(aerial_toggle_controls[map_id]);
 	},
 
+	'setAerialLayerFocus': function(map, new_focus){
+
+	    var map_id = self.mapId(map);
+	    
+	    if (new_focus == "fg"){
+		aerial_panes[map_id].style.zIndex = 2000;
+		self.fadeCampusAndComplex(map);
+	    } else {
+		aerial_panes[map_id].style.zIndex = 5000;
+		self.fillCampusAndComplex(map);
+	    }
+	    
+	    sfomuseum.maps.aerial.setCurrentFocus(map, new_focus);
+	    aerial_layers_controls[map_id].updateHash(map);
+	},
+	
 	'removeAerialToggleControls': function(map){
 
 	    var map_id = self.mapId(map);
