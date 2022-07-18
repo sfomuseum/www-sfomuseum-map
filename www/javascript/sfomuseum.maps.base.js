@@ -68,24 +68,52 @@ sfomuseum.maps.base = (function(){
 		break;
 
 	    case "coastline":
-		    
+
+		    // Something something something protomaps...
+			
 		    fetch("/data/sfba.geojson").then((rsp) => {
+			
 			if (! rsp.ok){
+			    console.log("Fetch to retrieve SFBA data", rsp);
 			    return;
 			}
 			
 			return rsp.json();
+			
 		    }).then((data) => {
-			var tile_args = {};
+
+			var sfba_blue = "#354855";
+			
+			var tile_args = {
+			    // "pane": "sfba",
+			    "color": "#ccc",
+			    "weight": 0,
+			    "opacity": 1,
+			    "fillColor": sfba_blue,
+			    "fillOpacity":1,
+			};
+			
 			var tile_layer = L.geoJSON(data, tile_args);	    
 			tile_layer.addTo(map);
+
+			map_el.style.backgroundColor = "#5d5d5d";
+
+			var sw = [37.393073, -122.623901];
+			var ne = [ 37.828226, -120.971832 ];
+			var bounds = [ sw, ne ];
+			
+			map.setMaxBounds(bounds);
+			map.setMinZoom(10);
+			map.setMaxZoom(20);
+			
+		    }).catch((err) => {
+			console.log(err);
 		    });
 
 		    break;
 		    
 	    default:
 		console.log("Unsupported map provider:", provider);
-		return false;
 	    }
 
 	    sfomuseum.maps.campus.addCampusLayer(map);
