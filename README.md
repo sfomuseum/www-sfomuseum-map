@@ -63,7 +63,11 @@ _Documentation for data files is incomplete at this time._
 
 ### `sfomuseum.maps.catalog.js`
 
-* https://github.com/sfomuseum/go-sfomuseum-data-maps
+_TBW_
+
+See also:
+
+* https://github.com/sfomuseum/go-sfomuseum-maps
 
 ### `sfomuseum.maps.data.js`
 
