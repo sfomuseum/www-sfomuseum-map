@@ -67,6 +67,22 @@ sfomuseum.maps.base = (function(){
 		tile_layer.addTo(map);
 		break;
 
+	    case "coastline":
+		    
+		    fetch("/data/sfba.geojson").then((rsp) => {
+			if (! rsp.ok){
+			    return;
+			}
+			
+			return rsp.json();
+		    }).then((data) => {
+			var tile_args = {};
+			var tile_layer = L.geoJSON(data, tile_args);	    
+			tile_layer.addTo(map);
+		    });
+
+		    break;
+		    
 	    default:
 		console.log("Unsupported map provider:", provider);
 		return false;

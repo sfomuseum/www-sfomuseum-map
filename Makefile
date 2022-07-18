@@ -7,6 +7,9 @@ protomaps:
 nextzen:
 	go run -mod vendor cmd/server/main.go -map-provider rasterzen -nextzen-apikey $(APIKEY)
 
+coastline:
+	go run -mod vendor cmd/server/main.go -map-provider coastline
+
 # whosonfirst/go-whosonfirst-exportify
 AS_FEATURECOLLECTION=as-featurecollection
 
