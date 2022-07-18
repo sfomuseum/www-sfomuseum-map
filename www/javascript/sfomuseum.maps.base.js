@@ -13,6 +13,7 @@ sfomuseum.maps.base = (function(){
 	},
 	"resize": false,
 	"date": null,
+	"hash": false,
     };
 
     var self = {
@@ -22,6 +23,7 @@ sfomuseum.maps.base = (function(){
 	    var map_args = {};
 	    
 	    var date = map_el.getAttribute("data-sfomuseum-map-date");
+	    var hash = map_el.getAttribute("data-sfomuseum-map-hash");
 	    var resize = map_el.getAttribute("data-sfomuseum-map-resize");
 	    
 	    if (resize){
@@ -32,13 +34,19 @@ sfomuseum.maps.base = (function(){
 		map_args["date"] = date;
 	    }
 
+	    if (hash){
+		map_args["hash"] = true;
+	    }
+
 	    return map_args;
 	},
 
 	'addTo': function(map, custom_args){
 
 	    var args = Object.assign({}, default_args, custom_args);
-	    
+
+	    console.log("ARGS", args);
+
 	    if (args["creditlines"]){
 		self.addCreditlinesContainer(map, args["creditlines"]);
 	    }
@@ -130,6 +138,11 @@ sfomuseum.maps.base = (function(){
 		    if (layer_def){
 			sfomuseum.maps.campus.setAerialLayer(map, layer_def);
 		    }
+		}
+
+		if (args["hash"]){
+		    console.log("HASH");
+		    sfomuseum.maps.campus.addAerialLayersHash(map);
 		}
 	    }
 

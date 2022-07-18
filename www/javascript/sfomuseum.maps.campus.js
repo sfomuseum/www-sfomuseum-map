@@ -199,11 +199,6 @@ sfomuseum.maps.campus = (function(){
 
 	    map.addControl(aerial_layers_controls[map_id]);
 
-	    var on_parse = sfomuseum.maps.aerial.onParseHashFunc(map);
-	    var on_format = sfomuseum.maps.aerial.onFormatHashFunc(map);
-	    
-	    // aerial_layers_controls[map_id].addHash(on_parse, on_format);
-
 	    if (sfomuseum.maps.aerial.isValidYear(current_year)){
 		self.addAerialToggleControls(map);
 	    }
@@ -213,6 +208,14 @@ sfomuseum.maps.campus = (function(){
 	    });
 
 	    self.isMapInCampus(map);
+	},
+
+	'addAerialLayersHash': function(map){
+	    var map_id = self.mapId(map);
+
+	    var on_parse = sfomuseum.maps.aerial.onParseHashFunc(map);
+	    var on_format = sfomuseum.maps.aerial.onFormatHashFunc(map);	    
+	    aerial_layers_controls[map_id].addHash(on_parse, on_format);
 	},
 
 	'removeAerialLayersControls': function(map){
