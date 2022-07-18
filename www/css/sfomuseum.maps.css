@@ -1,0 +1,23 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#map {
+	width: 100vw;
+	height: 100vh;
+}
+
+.minimap {
+	width: 300px !important;
+	height: 300px !important;
+	border: solid thin;
+}
+
+.leaflet-control-resizer-s {
+	background-color: #fff !important;
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	height: 12px !important;
+	opacity: .75 !important;
+}
