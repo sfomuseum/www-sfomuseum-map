@@ -75,8 +75,8 @@ sfomuseum.maps.base = (function(){
 
 	    case "coastline":
 
-		    // Something something something protomaps...
-			
+		    // Will eventually need to account for fully qualified URLs
+		    
 		    fetch("/data/sfba.geojson").then((rsp) => {
 			
 			if (! rsp.ok){
@@ -117,6 +117,43 @@ sfomuseum.maps.base = (function(){
 		    });
 
 		    break;
+
+		case "coastline-protomaps":
+
+		    // Will eventually need to account for fully qualified URLs
+   		    var pmtiles_src = "/data/sfba.pmtiles";
+
+		    const p = new protomaps.PMTiles(pmtiles_src);
+        
+		    p.metadata().then(m => {
+			
+			let bounds_str = m.bounds.split(',')
+			let bounds = [[+bounds_str[1],+bounds_str[0]],[+bounds_str[3],+bounds_str[2]]]
+			
+			map.setMaxBounds(bounds);
+			
+			let PAINT_RULES = [
+			    {
+				dataLayer:"water",
+				symbolizer:new protomaps.PolygonSymbolizer({fill:"#354855"})
+			    }
+			];
+			
+			let LABEL_RULES = [];
+			
+			var layer = protomaps.leafletLayer({
+			    attribution:'',
+			    url:p,
+			    bounds:bounds,
+			    paint_rules:PAINT_RULES,
+			    label_rules:LABEL_RULES,
+			    // pane: "sfba",
+			});
+			
+			layer.addTo(map);            
+		    });
+
+		    break
 		    
 	    default:
 		console.log("Unsupported map provider:", provider);

@@ -10,6 +10,9 @@ nextzen:
 coastline:
 	go run -mod vendor cmd/server/main.go -map-provider coastline
 
+coastline-pm:
+	go run -mod vendor cmd/server/main.go -map-provider coastline-protomaps
+
 # whosonfirst/go-whosonfirst-exportify
 AS_FEATURECOLLECTION=as-featurecollection
 
