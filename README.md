@@ -77,7 +77,7 @@ $> go run -mod vendor cmd/server/main.go \
 	-map-provider coastline-protomaps
 ```
 
-The `coastline` provider is bounded to the San Francisco Bay Area. It provides a basemap consisting only of the coastline of Bay Area derived from a Protomaps tile database.
+The `coastline-protomaps` provider is bounded to the San Francisco Bay Area. It provides a basemap consisting only of the coastline of Bay Area derived from a Protomaps tile database.
 
 ## Data
 
