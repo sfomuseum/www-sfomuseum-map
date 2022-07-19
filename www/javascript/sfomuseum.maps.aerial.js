@@ -212,39 +212,6 @@ sfomuseum.maps.aerial = (function(){
 
 	    return details[3];
 	},
-
-	'onParseHashFunc': function(map){
-	    return function(map, hash){
-
-		var context = hash['context'];	    
-
-		if (context != "bg"){
-		    context = "fg";
-		}
-
-		sfomuseum.maps.campus.setAerialLayerFocus(map, context);
-		return;
-	    };
-	},
-
-	'onFormatHashFunc': function(map){
-
-	    return function(){
-		
-		// Remember that year is considered to be the "label" and so it
-		// is handled by L.Control.Layers
-		
-		var extras = [];	
-		
-		var current_focus = self.getCurrentFocus(map);
-	    
-		if (current_focus == "fg"){
-		    extras.push(current_focus);
-		}
-		
-		return extras;
-	    };
-	},
     };
 
     return self;

@@ -211,10 +211,38 @@ sfomuseum.maps.campus = (function(){
 	},
 
 	'addAerialLayersHash': function(map){
+	    
 	    var map_id = self.mapId(map);
+	    
+	    var on_parse =  function(map, hash){
 
-	    var on_parse = sfomuseum.maps.aerial.onParseHashFunc(map);
-	    var on_format = sfomuseum.maps.aerial.onFormatHashFunc(map);	    
+		var context = hash['context'];	    
+		
+		if (context != "bg"){
+		    context = "fg";
+		}
+		
+		self.setAerialLayerFocus(map, context);
+		return;
+	    };
+	    
+	    var on_format = function(){
+		
+		// Remember that year is considered to be the "label" and so it
+		// is handled by L.Control.Layers
+		
+		var extras = [];	
+
+		var current_year = sfomuseum.maps.aerial.getCurrentYear(map);
+
+		if (sfomuseum.maps.aerial.isValidYear(current_year)){
+		    var current_focus = sfomuseum.maps.aerial.getCurrentFocus(map);
+		    extras.push(current_focus);
+		}
+		
+		return extras;
+	    };
+
 	    aerial_layers_controls[map_id].addHash(on_parse, on_format);
 	},
 
