@@ -57,23 +57,20 @@ $> go run -mod vendor cmd/server/main.go \
 	-nextzen-apikey {PROTOMAPS_APIKEY}
 ```
 
+### Coastline
+
+![](docs/images/www-sfomuseum-map-coastline.png)
+
+```
+$> go run -mod vendor cmd/server/main.go \
+	-map-provider coastline
+```
+
+The `coastline` provider is bounded to the San Francisco Bay Area. It provides a basemap consisting only of the coastline of Bay Area.
+
 ## Data
 
 _Documentation for data files is incomplete at this time._
-
-### `sfomuseum.maps.catalog.js`
-
-_TBW_
-
-See also:
-
-* https://github.com/sfomuseum/go-sfomuseum-maps
-
-### `sfomuseum.maps.data.js`
-
-```
-$> make data-js
-```
 
 #### Campus
 
@@ -96,6 +93,20 @@ See also:
 
 * https://github.com/sfomuseum-data/sfomuseum-data-architecture    
 
+### `sfomuseum.maps.data.js`
+
+```
+$> make data-js
+```
+
+### `sfomuseum.maps.catalog.js`
+
+_TBW_
+
+See also:
+
+* https://github.com/sfomuseum/go-sfomuseum-maps
+
 ## See also
 
 ### Tiles
@@ -108,6 +119,7 @@ See also:
 
 * https://github.com/jjimenezshaw/Leaflet.Control.Resizer
 * https://github.com/sfomuseum/leaflet-layers-control
+* https://github.com/sfomuseum/leaflet-toggle-control
 
 ### Tools
 
@@ -117,6 +129,7 @@ See also:
 ### Data
 
 * https://github.com/sfomuseum-data/sfomuseum-data-architecture
+* https://github.com/sfomuseum-data/sfomuseum-data-whosonfirst
 
 ### Theory
 
