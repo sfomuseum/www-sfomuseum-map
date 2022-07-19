@@ -45,8 +45,6 @@ sfomuseum.maps.base = (function(){
 
 	    var args = Object.assign({}, default_args, custom_args);
 
-	    console.log("ARGS", args);
-
 	    if (args["creditlines"]){
 		self.addCreditlinesContainer(map, args["creditlines"]);
 	    }
@@ -141,7 +139,6 @@ sfomuseum.maps.base = (function(){
 		}
 
 		if (args["hash"]){
-		    console.log("HASH");
 		    sfomuseum.maps.campus.addAerialLayersHash(map);
 		}
 	    }

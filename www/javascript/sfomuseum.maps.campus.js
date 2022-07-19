@@ -241,7 +241,7 @@ sfomuseum.maps.campus = (function(){
 
 	    var on_change = function(){
 		var current_focus = sfomuseum.maps.aerial.getCurrentFocus(map);
-		var new_focus = (current_focus == "fg") ? "bg": "fg";		
+		var new_focus = (current_focus == "fg") ? "bg": "fg";
 		self.setAerialLayerFocus(map, new_focus);
 	    };
 
@@ -255,14 +255,17 @@ sfomuseum.maps.campus = (function(){
 
 	'setAerialLayerFocus': function(map, new_focus){
 
+	    // fg means the aerial map is covering the contemporary campus
+	    // bg means the contemporary campus hovers over the aerial map
+	    
 	    var map_id = self.mapId(map);
 	    
-	    if (new_focus == "fg"){
-		aerial_panes[map_id].style.zIndex = 2000;
-		self.fadeCampusAndComplex(map);
-	    } else {
+	    if (new_focus == "fg"){	
 		aerial_panes[map_id].style.zIndex = 5000;
-		self.fillCampusAndComplex(map);
+		self.fillCampusAndComplex(map);		
+	    } else {
+ 		aerial_panes[map_id].style.zIndex = 2000;
+		self.fadeCampusAndComplex(map);
 	    }
 	    
 	    sfomuseum.maps.aerial.setCurrentFocus(map, new_focus);

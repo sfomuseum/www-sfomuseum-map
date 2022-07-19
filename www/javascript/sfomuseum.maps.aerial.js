@@ -214,7 +214,15 @@ sfomuseum.maps.aerial = (function(){
 	},
 
 	'onParseHashFunc': function(map){
-	    return function(y, f){
+	    return function(map, hash){
+
+		var context = hash['context'];	    
+
+		if (context != "bg"){
+		    context = "fg";
+		}
+
+		sfomuseum.maps.campus.setAerialLayerFocus(map, context);
 		return;
 	    };
 	},

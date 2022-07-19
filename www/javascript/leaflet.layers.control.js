@@ -234,11 +234,15 @@ L.Control.Layers = L.Control.extend({
 		    _this.setLayer(layer);
 		}
 	    }
-	    
+
 	    if (zoom){
 		_this._map.setZoom(zoom);
 	    }
 
+	    if (on_parse){
+		on_parse(_this._map, h);
+	    }
+	    
 	    if ((! lat) || (! lon)){
 		return;
 	    }
@@ -359,7 +363,7 @@ L.Control.Layers = L.Control.extend({
 	    'update_position': update_position,
 	    'context': context,
 	};
-	
+
 	return h;
     },
     
