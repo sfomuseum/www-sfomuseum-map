@@ -200,7 +200,7 @@ sfomuseum.maps.base = (function(){
 	    var map_id = map_el.getAttribute("id");
 
 	    var wrapper = document.createElement("div");
-	    wrapper.setAttribute("style", "text-align:right; font-size:11px;color:#ccc;");
+	    wrapper.setAttribute("id", "sfomuseum-map-creditline");
 
 	    // OSM
 

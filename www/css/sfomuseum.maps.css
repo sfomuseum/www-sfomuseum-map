@@ -8,6 +8,12 @@ body {
 	height: 100vh;
 }
 
+#sfomuseum-map-creditline {
+        text-align: right;
+        font-size: 11px;
+	color: #ccc;
+}
+
 .minimap {
 	width: 300px !important;
 	height: 300px !important;

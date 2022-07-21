@@ -39,11 +39,23 @@ sfomuseum.maps.campus = (function(){
 
     var campus_bounds;
 
+    var callbacks = {
+	'add': null,
+	'change': null,
+	'remove': null,
+	'toggle': null,
+    };
+    
     var self = {
 
 	'mapId': function(map){
 	    var map_el = map.getContainer();
 	    return map_el.getAttribute("id");
+	},
+
+	'registerCallback': function(label, cb){
+	    // check whether callback.key(label) exists
+	    callbacks[label] = cb;
 	},
 	
 	'addCampusLayer': function(map){
@@ -173,17 +185,35 @@ sfomuseum.maps.campus = (function(){
 		pane: aerial_pane_name,
 	    };
 
-	    var on_add = function(l){
-		console.log("ADD", l);
+	    var on_add = function(layer_def){
+
+		var cb = callbacks["add"];
+		
+		if (cb){
+		    cb(map, layer_def);
+		}
 	    };
 
 	    var on_change = function(layer_def){
+		
 		self.addAerialLayer(map, layer_def);
+
+		var cb = callbacks["change"];
+		
+		if (cb){
+		    cb(map, layer_def);
+		}
 	    };
 
-	    var on_remove = function(l){
-		console.log("REMOVE", l);
+	    var on_remove = function(layer_def, next_layer){
+
 		self.removeAerialLayer(map);
+
+		var cb = callbacks["remove"];
+		
+		if (cb){
+		    cb(map, layer_def, next_layer);
+		}
 	    };
 
 	    var current_year = sfomuseum.maps.aerial.getCurrentYear(map);
@@ -202,14 +232,16 @@ sfomuseum.maps.campus = (function(){
 	    if (sfomuseum.maps.aerial.isValidYear(current_year)){
 		self.addAerialToggleControls(map);
 	    }
+	},
 
+	'ensureMapInCampus': function(map){
 	    map.on("moveend", function(){
 		self.isMapInCampus(map);
 	    });
 
 	    self.isMapInCampus(map);
 	},
-
+	
 	'addAerialLayersHash': function(map){
 	    
 	    var map_id = self.mapId(map);
@@ -262,15 +294,21 @@ sfomuseum.maps.campus = (function(){
 
 	    var map_id = self.mapId(map);
 	    
-
 	    if (aerial_toggle_controls[map_id]){
 		return;
 	    }
 
 	    var on_change = function(){
+		
 		var current_focus = sfomuseum.maps.aerial.getCurrentFocus(map);
 		var new_focus = (current_focus == "fg") ? "bg": "fg";
 		self.setAerialLayerFocus(map, new_focus);
+
+		var cb = callbacks["toggle"];
+		
+		if (cb){
+		    cb(map, new_focus);
+		}
 	    };
 
 	    aerial_toggle_controls[map_id] = new L.Control.Toggle({

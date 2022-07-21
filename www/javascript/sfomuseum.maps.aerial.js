@@ -54,6 +54,8 @@ sfomuseum.maps.aerial = (function(){
 
 	'updateCreditline': function(map) {
 
+	    sfomuseum.debug.log("update creditline");
+	    
 	    var map_el = map.getContainer();
 	    var map_id = map_el.getAttribute("id");
 
@@ -61,6 +63,7 @@ sfomuseum.maps.aerial = (function(){
 	    var creditline_el = document.getElementById(creditline_id);
 	    
 	    if (! creditline_el){
+		sfomuseum.debug.log("no " + creditline_id);
 		return;
 	    }
 	    
@@ -69,9 +72,11 @@ sfomuseum.maps.aerial = (function(){
 	    var year = self.getCurrentYear(map);
 
 	    if (! self.isValidYear(year)){
+		sfomuseum.debug.log("not a valid year " + year);
 		return;
 	    }
 
+	    sfomuseum.debug.log("append...");
 	    self.appendCreditline(creditline_el, year);
 	},
 
@@ -212,6 +217,83 @@ sfomuseum.maps.aerial = (function(){
 
 	    return details[3];
 	},
+
+	'yearsAsList': function(){
+
+	    var years_list = [];
+
+	    for (y in _years){
+		years_list.push(y);
+	    }
+
+	    return years_list;
+	},
+	
+	'getNextYear': function(current_year){
+
+	    var years = self.yearsAsList();	
+	    var count_years = years.length;
+	    
+	    var next_year;
+	    
+	    if (current_year == -1){
+		next_year = years[0];
+	    }
+	    
+	    else {
+		
+		for (var i = 0; i < count_years; i++){
+		    
+		    if (years[i] != current_year){
+			continue;
+		    }
+		    
+		    var j = i + 1;
+		    
+		    if (j == count_years){
+			j = 0;
+		    }
+		    
+		    next_year = years[j];
+		    break;
+		}
+	    }
+	    
+	    return next_year;
+	},
+
+	'getPreviousYear': function(current_year){
+
+	    var years = self.yearsAsList();
+	    var count_years = years.length;
+	    
+	    var previous_year;
+	    
+	    if (current_year == -1){
+		previous_year = years[ count_years - 1 ];
+	    }
+	    
+	    else {
+		
+		for (var i = 0; i < count_years; i++){
+		    
+		    if (years[i] != current_year){
+			continue;
+		    }
+		    
+		    var j = i - 1;
+		    
+		    if (j < 0){
+			j = count_years - 1;
+		    }
+		    
+		    previous_year = years[j];
+		}
+	    }
+	    
+	    return previous_year;
+	},
+	
     };
 
     return self;
