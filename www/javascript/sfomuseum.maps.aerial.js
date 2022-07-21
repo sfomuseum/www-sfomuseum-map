@@ -54,8 +54,6 @@ sfomuseum.maps.aerial = (function(){
 
 	'updateCreditline': function(map) {
 
-	    sfomuseum.debug.log("update creditline");
-	    
 	    var map_el = map.getContainer();
 	    var map_id = map_el.getAttribute("id");
 
@@ -63,7 +61,6 @@ sfomuseum.maps.aerial = (function(){
 	    var creditline_el = document.getElementById(creditline_id);
 	    
 	    if (! creditline_el){
-		sfomuseum.debug.log("no " + creditline_id);
 		return;
 	    }
 	    
@@ -72,11 +69,9 @@ sfomuseum.maps.aerial = (function(){
 	    var year = self.getCurrentYear(map);
 
 	    if (! self.isValidYear(year)){
-		sfomuseum.debug.log("not a valid year " + year);
 		return;
 	    }
 
-	    sfomuseum.debug.log("append...");
 	    self.appendCreditline(creditline_el, year);
 	},
 
