@@ -94,7 +94,7 @@ L.Control.Layers = L.Control.extend({
 	if (this._tile_layer != null){
 
 	    if (this.options.on_remove){
-		this.options.on_remove(this._layer);
+		this.options.on_remove(this._layer, layer);
 	    } else {
 		this._map.removeLayer(this._tile_layer);
 	    }
