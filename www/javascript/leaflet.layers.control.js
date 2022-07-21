@@ -94,7 +94,7 @@ L.Control.Layers = L.Control.extend({
 	if (this._tile_layer != null){
 
 	    if (this.options.on_remove){
-		this.options.on_remove(this._tile_layer);
+		this.options.on_remove(this._layer);
 	    } else {
 		this._map.removeLayer(this._tile_layer);
 	    }
@@ -123,7 +123,7 @@ L.Control.Layers = L.Control.extend({
 	var tile_layer = L.tileLayer(url, args);
 
 	if (this.options.on_add){
-	    this.options.on_add(tile_layer);
+	    this.options.on_add(this._layer);
 	} else {
 	    tile_layer.addTo(this._map);
 	}
@@ -148,7 +148,7 @@ L.Control.Layers = L.Control.extend({
 	// user defined stuff
 	
 	if (this.options.on_change){
-	    this.options.on_change(layer);
+	    this.options.on_change(this._layer);
 	}
 	
 	return idx;
