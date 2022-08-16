@@ -25,6 +25,7 @@ sfomuseum.maps.base = (function(){
 	    var date = map_el.getAttribute("data-sfomuseum-map-date");
 	    var hash = map_el.getAttribute("data-sfomuseum-map-hash");
 	    var resize = map_el.getAttribute("data-sfomuseum-map-resize");
+	    var no_creditline = map_el.getAttribute("data-sfomuseum-map-no-creditline");
 	    
 	    if (resize){
 		map_args["resize"] = true;
@@ -36,6 +37,10 @@ sfomuseum.maps.base = (function(){
 
 	    if (hash){
 		map_args["hash"] = true;
+	    }
+
+	    if (no_creditline){
+		map_args["creditlines"] = {"osm": false, "aerial": false };
 	    }
 
 	    return map_args;
