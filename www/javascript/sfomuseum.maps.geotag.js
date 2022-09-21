@@ -3,8 +3,12 @@ sfomuseum.maps = sfomuseum.maps || {};
 
 sfomuseum.maps.geotag = (function(){
 
-    var default_lat = 37.61799;
-    var default_lon = -122.370943;
+    var default_camera_lat = 37.61799;
+    var default_camera_lon = -122.370943;
+
+    var default_target_lat = 37.620078;
+    var default_target_lon = -122.372589;
+    
     var default_angle = 20;
     
     var self = {
@@ -14,11 +18,6 @@ sfomuseum.maps.geotag = (function(){
 	    var camera = self.defaultCameraPoint();
 	    var target = self.defaultTargetPoint();
 	    var angle = self.defaultAngle();
-	    
-	    return self.init(map, camera, target, angle, on_change);
-	},
-	
-	'init': function(map, camera, target, angle, on_change){
 
 	    var points = {
 		type: 'Feature',
@@ -38,7 +37,12 @@ sfomuseum.maps.geotag = (function(){
 			}
 		    ]
 		}
-	    }
+	    };
+	    
+	    return self.init(map, points, on_change);
+	},
+	
+	'init': function(map, points, on_change){
 
 	    var options = {
 		draggable: true,
@@ -54,11 +58,13 @@ sfomuseum.maps.geotag = (function(){
 	},
 
 	'defaultCameraPoint': function(){
-	    return [ default_lat, default_lon ];
+	    // Note lon, lat despite Leaflet convention of lon, lat
+	    return [ default_camera_lon, default_camera_lat ];
 	},
 
 	'defaultTargetPoint': function(){
-	    return [ default_lat, default_lon ];
+	    // Note lon, lat despite Leaflet convention of lon, lat	    
+	    return [ default_target_lon, default_target_lat ];
 	},
 
 	'defaultAngle': function(){

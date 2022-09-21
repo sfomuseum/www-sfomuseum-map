@@ -27,4 +27,5 @@ window.addEventListener("load", function load(event){
     };
 
     sfomuseum.maps.geotag.initWithDefaults(map, on_change);
+
 });
