@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/aaronland/go-http-rewrite v1.0.0
 	github.com/aaronland/go-http-server v1.0.0
-	github.com/sfomuseum/go-flags v0.8.2
+	github.com/sfomuseum/go-flags v0.9.0
 )
 
 require (

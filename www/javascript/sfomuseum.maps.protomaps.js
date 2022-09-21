@@ -122,7 +122,7 @@ sfomuseum.maps.protomaps = (function(){
 	    return LABEL_RULES;
 	},
 	'tileURL': function(args){
-	    return "https://api.protomaps.com/tiles/v2/{z}/{x}/{y}.pbf?key=" + args["api_key"];
+	    return "https://static.sfomuseum.org/pmtiles/sfomuseum/{z}/{x}/{y}.pbf?key=" + args["api_key"];
 	},
 	'tileLayer': function(tile_url, args){
 
