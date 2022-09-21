@@ -44,9 +44,13 @@ sfomuseum.maps.geotag = (function(){
 	
 	'init': function(map, points, on_change){
 
+	    var pane = map.createPane("geotag");
+	    pane.style.zIndex = 8000;
+	    
 	    var options = {
 		draggable: true,
-		
+		pane: "geotag",
+		position: "topright",
 	    }
 	    
 	    var geotag_layer = L.geotagPhoto.camera(points, options);

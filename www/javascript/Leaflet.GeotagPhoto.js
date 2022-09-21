@@ -1,5 +1,5 @@
 (function (L) {
-    
+
     'use strict';
 
     L = 'default' in L ? L['default'] : L;
@@ -29,11 +29,12 @@ var GeotagPhotoCrosshair = L.Evented.extend({
       crosshairHTML: '<img alt="Center of the map; crosshair location" title="Crosshair" src="' + crosshair_svg + '" width="100px" />'
   },
 
-  initialize: function initialize(options) {
+    initialize: function initialize(options) {
     L.setOptions(this, options);
   },
 
-  addTo: function addTo(map) {
+    addTo: function addTo(map) {
+
     this._map = map;
     var container = map.getContainer();
     this._element = L.DomUtil.create('div', 'leaflet-geotag-photo-crosshair', container);
@@ -1690,14 +1691,20 @@ function processGeometryCollection (feature, options) {
 }
 
 var GeotagPhotoCameraControl = L.Control.extend({
-  options: {
-    position: 'topleft'
-  },
+    options: {
+	position: 'topleft'
+    },
+    
+    // initialize: function initialize(geotagPhotoCamera, options) {
+    initialize: function(geotagPhotoCamera, options) {	
+	this._geotagPhotoCamera = geotagPhotoCamera;
 
-  initialize: function initialize(geotagPhotoCamera, options) {
-    this._geotagPhotoCamera = geotagPhotoCamera;
-    L.setOptions(this, options);
-  },
+	// merge geotagPhotoCamera.options and options	
+	var combined_opts = Object.assign({}, options, geotagPhotoCamera.options);
+
+	console.log(combined_opts);
+	L.setOptions(this, combined_opts);
+    },
 
   onAdd: function onAdd(map) {
     this._map = map;
@@ -2234,7 +2241,7 @@ L.geotagPhoto = {
   crosshair: function crosshair(options) {
     return new GeotagPhotoCrosshair(options);
   },
-  camera: function camera(feature, options) {
+    camera: function camera(feature, options) {
     return new GeotagPhotoCamera(feature, options);
   }
 };
