@@ -9,7 +9,7 @@ sfomuseum.maps.geotag = (function(){
     var default_target_lat = 37.620078;
     var default_target_lon = -122.372589;
     
-    var default_angle = 20;
+    var default_angle = 25;
     
     var self = {
 
@@ -44,21 +44,17 @@ sfomuseum.maps.geotag = (function(){
 	
 	'init': function(map, points, on_change){
 
-	    var pane = map.createPane("geotag");
-	    pane.style.zIndex = 8000;
-	    
 	    var options = {
 		draggable: true,
-		pane: "geotag",
 		position: "topright",
 	    }
 	    
-	    var geotag_layer = L.geotagPhoto.camera(points, options);
+	    var geotag_control = L.geotagPhoto.camera(points, options);
 
-	    geotag_layer.addTo(map);	    
-	    geotag_layer.on('change', on_change);
+	    geotag_control.addTo(map);	    
+	    geotag_control.on('change', on_change);
 
-	    return geotag_layer;
+	    return geotag_control;
 	},
 
 	'defaultCameraPoint': function(){

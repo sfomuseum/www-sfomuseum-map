@@ -1,0 +1,7 @@
+.leaflet-overlay-pane {
+	z-index: 7900 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 8000 !important;
+}
