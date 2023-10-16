@@ -1,6 +1,9 @@
 var sfomuseum = sfomuseum || {};
 sfomuseum.maps = sfomuseum.maps || {};
 
+// replace all the "year" stuff with "uri" equivalent - it's not so much about years
+// as it is date-first uris that can be sorted by time
+
 sfomuseum.maps.aerial = (function(){
 
     var _years = sfomuseum.maps.catalog.asYears();
