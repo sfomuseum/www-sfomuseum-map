@@ -27,3 +27,12 @@ body {
 	height: 12px !important;
 	opacity: .75 !important;
 }
+
+.leaflet-control-resizer::after {
+	width: 0;
+	height: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-top: 5px solid #999;
+	border-bottom-width: 0 !important;
+}
