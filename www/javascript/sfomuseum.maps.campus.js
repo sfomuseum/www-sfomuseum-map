@@ -216,11 +216,11 @@ sfomuseum.maps.campus = (function(){
 		}
 	    };
 
-	    var current_year = sfomuseum.maps.aerial.getCurrentYear(map);
+	    var current_map_uri = sfomuseum.maps.aerial.getCurrentMap(map);
 
 	    aerial_layers_controls[map_id] = new L.Control.Layers({
 		catalog: sfomuseum.maps.catalog.data(),
-		selected: current_year,
+		selected: current_map_uri,
 		on_add: on_add,
 		on_remove: on_remove,
 		on_change: on_change,
@@ -229,7 +229,7 @@ sfomuseum.maps.campus = (function(){
 
 	    map.addControl(aerial_layers_controls[map_id]);
 
-	    if (sfomuseum.maps.aerial.isValidYear(current_year)){
+	    if (sfomuseum.maps.aerial.isValidMap(current_map_uri)){
 		self.addAerialToggleControls(map);
 	    }
 	},
@@ -265,9 +265,9 @@ sfomuseum.maps.campus = (function(){
 		
 		var extras = [];	
 
-		var current_year = sfomuseum.maps.aerial.getCurrentYear(map);
+		var current_map_uri = sfomuseum.maps.aerial.getCurrentMap(map);
 
-		if (sfomuseum.maps.aerial.isValidYear(current_year)){
+		if (sfomuseum.maps.aerial.isValidMap(current_map_uri)){
 		    var current_focus = sfomuseum.maps.aerial.getCurrentFocus(map);
 		    extras.push(current_focus);
 		}
@@ -397,7 +397,7 @@ sfomuseum.maps.campus = (function(){
 		layer_id: aerial_layer_id,
 	    };
 	    
-	    sfomuseum.maps.aerial.setCurrentYear(map, layer_def["year"]);
+	    sfomuseum.maps.aerial.setCurrentMap(map, layer_def["year"]);
 	    sfomuseum.maps.aerial.updateCreditline(map);
 
 	    self.addAerialToggleControls(map);
@@ -435,7 +435,7 @@ sfomuseum.maps.campus = (function(){
 	    
 	    delete(aerial_layers[map_id]);
 	    
-	    sfomuseum.maps.aerial.setCurrentYear(map, -1);
+	    sfomuseum.maps.aerial.setCurrentMap(map, -1);
 	    sfomuseum.maps.aerial.updateCreditline(map);
 
 	    self.removeAerialToggleControls(map);
