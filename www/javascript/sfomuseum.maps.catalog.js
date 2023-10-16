@@ -19,6 +19,10 @@ sfomuseum.maps.catalog = (function(){
 	// code (20190924/thisisaaronland)
 
 	'asYears': function(){
+	    return self.asDictionary();
+	},
+
+	'asDictionary': function(){	
 
             var catalog = self.data();
 	    var count = catalog.length;

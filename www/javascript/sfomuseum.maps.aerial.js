@@ -6,7 +6,7 @@ sfomuseum.maps = sfomuseum.maps || {};
 
 sfomuseum.maps.aerial = (function(){
 
-    var _years = sfomuseum.maps.catalog.asYears();
+    var _catalog = sfomuseum.maps.catalog.asDictionary();
 
     // this (var _sources) will	eventually be bundled in to a
     // sfomuseum.sources.js package but	that day is not	today
@@ -33,25 +33,25 @@ sfomuseum.maps.aerial = (function(){
 	    map_el.setAttribute("data-current-focus", focus);
 	},
 
-	'getCurrentYear': function(map){
+	'getCurrentMap': function(map){
 	    var map_el = map.getContainer();	   
-	    var current_year = map_el.getAttribute("data-current-year");
+	    var map_uri = map_el.getAttribute("data-current-map");
 	    
-	    if (! self.isValidYear(current_year)){
+	    if (! self.isValidMap(map_uri)){
 		return -1;
 	    }
 	    
-	    return current_year;
+	    return map_uri;
 	},
 
-	'setCurrentYear': function(map, current_year){
+	'setCurrentMap': function(map, map_uri){
 
-	    if (! self.isValidYear(current_year)){
-		current_year = -1;
+	    if (! self.isValidMap(map_uri)){
+		current_map = -1;
 	    }
 
 	    var map_el = map.getContainer();	   	    
-	    map_el.setAttribute("data-current-year", current_year);
+	    map_el.setAttribute("data-current-map", map_uri);
 	    return true;
 	},
 
@@ -69,25 +69,28 @@ sfomuseum.maps.aerial = (function(){
 	    
 	    creditline_el.innerHTML = "";
 
-	    var year = self.getCurrentYear(map);
+	    var map_uri = self.getCurrentMap(map);
 
-	    if (! self.isValidYear(year)){
+	    if (! self.isValidMap(map_uri)){
 		return;
 	    }
 
-	    self.appendCreditline(creditline_el, year);
+	    self.appendCreditline(creditline_el, map_uri);
 	},
 
 	// Cribbed from ios-sfomuseum-maps-t2
 
-	'appendCreditline': function(el, year){
+	'appendCreditline': function(el, map_uri){
 
-	    var source = self.sourceForYear(year);
-	    var ext_id = self.externalIdForYear(year);
+	    var map_details = _catalog[map_uri];
+	    var map_year = map_details["year"];
+	    
+	    var source = self.sourceForMap(map_uri);
+	    var ext_id = self.externalIdForMap(map_uri);
 	    
 	    var title = "Aerial view of San Francisco International Airport";
 	    
-	    if (parseInt(year) < 1954){
+	    if (parseInt(map_year) < 1954){
 		title = "Aerial view of San Francisco Airport";
 	    }
 	    
@@ -105,11 +108,11 @@ sfomuseum.maps.aerial = (function(){
 	    title_el.setAttribute("class", "creditline-title");
 	    title_el.appendChild(document.createTextNode(title));
 	    
-	    var year_el = document.createElement("span");
-	    year_el.setAttribute("class", "creditline-year");
-	    year_el.appendChild(document.createTextNode(" " + year));
+	    var map_el = document.createElement("span");
+	    map_el.setAttribute("class", "creditline-map");
+	    map_el.appendChild(document.createTextNode(" " + map_year));
 	    
-	    title_el.appendChild(year_el);
+	    title_el.appendChild(map_el);
 	    el.appendChild(title_el);
 	    
 	    var source_el = document.createElement("div");
@@ -127,32 +130,37 @@ sfomuseum.maps.aerial = (function(){
 
 	},
 
-	'isValidYear': function(year){
-	    return (_years[year]) ? true : false;
+	'isValidMap': function(map_uri){
+	    return (_catalog[map_uri]) ? true : false;
 	},
 
 	// START OF maybe put in sfomuseum.maps.catalog.js
 
-	'layerDefinitionFromDate': function(date){
+	'layerDefinitionFromDate': function(map_uri){
 
 	    // See this? It's a placeholder in advance of a lot of boring code
 	    // to parse dates and handle timezone. The relevant point is that
 	    // we don't need any of that as of this writing and can rely on date
-	    // being an `edtf:date` year value. If that changes we may want or
+	    // being an `edtf:date` map value. If that changes we may want or
 	    // need to account for date parsing using a wasm-ified sfomuseum/go-edtf
 	    // widget.
 
-	    var year = parseInt(date);
+	    /*
+	    var map = parseInt(date);
 
-	    if (isNaN(year)){
+	    if (isNaN(map)){
 		return null;
 	    }
+	     */
 	    
-	    return self.layerDefinitionFromYear(year);
+	    return self.layerDefinitionFromMap(map_uri);
 	},
 
-	'layerDefinitionFromYear': function(year){
+	'layerDefinitionFromMap': function(map_uri){
 
+	    var map_details = _catalog[map_uri];
+	    var map_year = map_details["year"];
+	    
 	    var data = sfomuseum.maps.catalog.data();
 	    var count = data.length;
 
@@ -164,17 +172,17 @@ sfomuseum.maps.aerial = (function(){
 		var def = data[i];
 		var y = def["year"];
 
-		if (y == year){
+		if (y == map_year){
 		    closest_def = def;
 		    break;
 		}
 
 		var dist;
 
-		if (y < year){
-		    dist = year - y;
+		if (y < map_year){
+		    dist = map_year - y;
 		} else {
-		    dist = y - year;
+		    dist = y - map_year;
 		}
 
 		// Note that the <= operator will cause a more recent map layer
@@ -191,23 +199,23 @@ sfomuseum.maps.aerial = (function(){
 
 	// END OF maybe put in sfomuseum.maps.catalog.js
 
-	'sourceForYear': function(year){
+	'sourceForMap': function(map_uri){
 
-	    if (! _years[year]){
+	    if (! _catalog[map_uri]){
 		return _sources['-1'];
 	    }
 
-	    var src = _years[year][2];
+	    var src = _catalog[map_uri][2];	// What?
 	    return _sources[src];
 	},
 
-	'externalIdForYear': function(year){
+	'externalIdForMap': function(map_uri){
 
-	    if (! _years[year]){
+	    if (! _catalog[map_uri]){
 		return "";
 	    }
 
-	    var details = _years[year];
+	    var details = _catalog[map_uri];
 	    
 	    if (details.length < 4){
 		return "";
@@ -216,83 +224,84 @@ sfomuseum.maps.aerial = (function(){
 	    return details[3];
 	},
 
-	'yearsAsList': function(){
+	'mapsAsList': function(){
 
-	    var years_list = [];
+	    var maps_list = [];
 
-	    for (y in _years){
-		years_list.push(y);
+	    for (y in _catalog){
+		maps_list.push(y);
 	    }
 
-	    return years_list;
+	    return maps_list;
 	},
 	
-	'getNextYear': function(current_year){
+	'getNextMap': function(current_map_uri){
 
-	    var years = self.yearsAsList();	
-	    var count_years = years.length;
+	    var maps = self.mapsAsList();	
+	    var count_catalog = maps.length;
 	    
-	    var next_year;
+	    var next_map;
 	    
-	    if (current_year == -1){
-		next_year = years[0];
+	    if (current_map_uri == -1){
+		next_map_uri = maps[0];
 	    }
 	    
 	    else {
 		
-		for (var i = 0; i < count_years; i++){
+		for (var i = 0; i < count_catalog; i++){
 		    
-		    if (years[i] != current_year){
+		    if (maps[i] != current_map_uri){
 			continue;
 		    }
 		    
 		    var j = i + 1;
 		    
-		    if (j == count_years){
+		    if (j == count_catalog){
 			j = 0;
 		    }
 		    
-		    next_year = years[j];
+		    next_map_uri = maps[j];
 		    break;
 		}
 	    }
 	    
-	    return next_year;
+	    return next_map_uri;
 	},
 
-	'getPreviousYear': function(current_year){
+	'getPreviousMap': function(current_map_uri){
 
-	    var years = self.yearsAsList();
-	    var count_years = years.length;
+	    var maps = self.mapsAsList();
+	    var count_catalog = maps.length;
 	    
-	    var previous_year;
+	    var previous_map_uri;
 	    
-	    if (current_year == -1){
-		previous_year = years[ count_years - 1 ];
+	    if (current_map_uri == -1){
+		previous_map_uri = maps[ count_catalog - 1 ];
 	    }
 	    
 	    else {
 		
-		for (var i = 0; i < count_years; i++){
+		for (var i = 0; i < count_catalog; i++){
 		    
-		    if (years[i] != current_year){
+		    if (maps[i] != current_map_uri){
 			continue;
 		    }
 		    
 		    var j = i - 1;
 		    
 		    if (j < 0){
-			j = count_years - 1;
+			j = count_catalog - 1;
 		    }
 		    
-		    previous_year = years[j];
+		    previous_map_uri = maps[j];
 		}
 	    }
 	    
-	    return previous_year;
+	    return previous_map_uri;
 	},
 	
     };
 
     return self;
+    
 })();
